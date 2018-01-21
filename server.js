@@ -2,7 +2,6 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const booksController = require("./controllers/booksController");
-// const nyt = require("./controllers/nytController")
 const app = express();
 const PORT = process.env.PORT || 3001;
 
@@ -20,7 +19,7 @@ app.use(booksController);
 mongoose.Promise = global.Promise;
 // Connect to the Mongo DB
 mongoose.connect(
-  process.env.MONGODB_URI || "mongodb://localhost/reactreadinglist",
+  process.env.MONGODB_URI || "mongodb://localhost/nytreact",
   {
     useMongoClient: true
   }

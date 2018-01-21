@@ -2,10 +2,10 @@ import axios from "axios";
 
 export default {
   // Gets all books
-  // getBooks: function () {
-  //   return axios.get("/api/books");
-  // },
-  getBooksFromNYT: function (searchObj) {
+  getArticles: function () {
+    return axios.get("/api/articles");
+  },
+  getArticlesFromNYT: function (searchObj) {
     return axios.post("/api/nyt", searchObj)
     // .then(data => {
     //     console.log(data);

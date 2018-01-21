@@ -17,19 +17,22 @@ class Articles extends React.Component {
     };
   }
 
-  // // When the component mounts, load all books and save them to this.state.books
-  // componentDidMount() {
-  //   this.loadBooks();
-  // }
+  // When the component mounts, load all books and save them to this.state.books
+  componentDidMount() {
+    this.loadArticles();
+  }
 
-  // // Loads all books  and sets them to this.state.books
-  // loadBooks = () => {
-  //   API.getBooks()
-  //     .then(res =>
-  //       this.setState({ books: res.data, title: "", author: "", synopsis: "" })
-  //     )
-  //     .catch(err => console.log(err));
-  // };
+  // Loads all books  and sets them to this.state.books
+  loadArticles = () => {
+    API.getArticles()
+      .then(res => {
+        console.log(res)
+      }
+       
+        // this.setState({ books: res.data, title: "", author: "", synopsis: "" })
+      )
+      .catch(err => console.log(err));
+  };
 
   // // Deletes a book from the database with a given id, then reloads books from the db
   // deleteBook = id => {
@@ -50,14 +53,14 @@ class Articles extends React.Component {
   // Then reload books from the database
   handleFormSubmit = event => {
     event.preventDefault();
-   
-      API.getBooksFromNYT({
+    
+      API.getArticlesFromNYT({
         topic: this.state.topic,
         startYear: this.state.startYear,
         endYear: this.state.endYear
       })
          .then(function (response) {
-            console.log(response);
+          console.log(response);
           })
           // .catch(function (error) {
           //   console.log(error);
@@ -83,13 +86,13 @@ class Articles extends React.Component {
                 value={this.state.startYear}
                 onChange={this.handleInputChange}
                 name="startYear"
-                placeholder="Start Year (required)"
+                placeholder="Start Year (YYYMMDD)"
               />
               <Input
                 value={this.state.endYear}
                 onChange={this.handleInputChange}
                 name="endYear"
-                placeholder="End Year (required)"
+                placeholder="End Year  (YYYMMDD)"
               />
               {/* <TextArea
                 value={this.state.synopsis}
