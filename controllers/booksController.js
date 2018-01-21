@@ -1,35 +1,36 @@
 const path = require("path");
 const router = require("express").Router();
 const db = require("../models");
+const axios = require("axios");
 
-const bookFunctions = {
+const articleFunctions = {
   findAll: function (req, res) {
-    db.Book
+    db.Article
       .find(req.query)
       .sort({ date: -1 })
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
   findById: function (req, res) {
-    db.Book
+    db.Article
       .findById(req.params.id)
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
   create: function (req, res) {
-    db.Book
+    db.Article
       .create(req.body)
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
   update: function (req, res) {
-    db.Book
+    db.Article
       .findOneAndUpdate({ _id: req.params.id }, req.body)
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
   remove: function (req, res) {
-    db.Book
+    db.Article
       .findById({ _id: req.params.id })
       .then(dbModel => dbModel.remove())
       .then(dbModel => res.json(dbModel))
@@ -37,13 +38,30 @@ const bookFunctions = {
   }
 }
 
-router.get("/api/books", bookFunctions.findAll)
+// router.get("/api/books", articleFunctions.findAll)
 
-router.post("/api/books", bookFunctions.create)
+router.post("/api/nyt", (req, res) => {
+  const {topic} = req.body;
+  console.log(req.body);
+// searchURL = searchURL + "&begin_date=" + startYear + "0101";
+// searchURL = searchURL + "&end_date=" + endYear + "0101";
+  const key = "b9f91d369ff59547cd47b931d8cbc56b:0:74623931";
+  const queryURLBase = `https://api.nytimes.com/svc/search/v2/articlesearch.json?api-key=${key}&q=${topic}`;
+  console.log(queryURLBase);
+  return axios.get(queryURLBase)
+  .then(function (response) {
+    console.log(response.data.response.docs);
+    })
+    .catch(function (error) {
+      console.log("JERE");
+      console.log(error);
+    });
+});
+// router.post("/api/articles", articleFunctions.create)
 
-router.delete("/api/books/:id", bookFunctions.remove)
+// router.delete("/api/books/:id", articleFunctions.remove)
 
-router.get("/api/books/:id", bookFunctions.findById)
+// router.get("/api/books/:id", articleFunctions.findById)
 
 // If no API routes are hit, send the React app
 router.use(function (req, res) {
