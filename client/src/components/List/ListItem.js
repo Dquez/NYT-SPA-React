@@ -7,9 +7,9 @@ class ListItem extends React.Component {
   render () {
 
     return (
-      <li className="list-group-item">
+      <div>
         {this.props.children}
-      </li>
+      </div>
     )
   }
 }
@@ -19,3 +19,5 @@ ListItem.props = {
 }
 
 export default ListItem;
+
+

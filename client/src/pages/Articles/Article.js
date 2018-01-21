@@ -52,6 +52,7 @@ class Articles extends React.Component {
   // When the form is submitted, use the API.saveBook method to save the book data
   // Then reload books from the database
   handleFormSubmit = event => {
+    const self = this;
     event.preventDefault();
     
       API.getArticlesFromNYT({
@@ -59,15 +60,34 @@ class Articles extends React.Component {
         startYear: this.state.startYear,
         endYear: this.state.endYear
       })
-         .then(function (response) {
-          console.log(response);
+      .then(function (response) {
+        // console.log(self);
+        if (response) {
+          const articles = response.data.map(article => {
+            return {
+              _id: article._id,
+              byline: article.byline.original,
+              headline: article.headline.main,
+              web_url : article.web_url
+            }
           })
-          // .catch(function (error) {
-          //   console.log(error);
-          // });
+          self.setState({
+            articles : articles
+             })
+        }
+        else {
+          alert("Sorry, no articles appeared from your search parameters. Please try again.");
+        }
+      })
+        .catch(function (error) {
+            console.log(error);
+        });
   };
 
   render() {
+    // const articlesInfo = this.state.articles.map(article => {
+
+    // })
     return (
       <Container fluid>
         <Row>
@@ -130,6 +150,26 @@ class Articles extends React.Component {
             ) : (
                 <h3>No Results to Display</h3>
               )} */}
+               {this.state.articles.length ? (
+              <List>
+                {this.state.articles.map(article => {
+                  return (
+                    <ListItem key={article._id}>
+                      {/* <a href={"/article/" + book._id}> */}
+                      <a href={article.web_url}>
+                        <strong>
+                          {article.headline} {article.byline ? "by " + article.byline : ""}
+                        </strong>
+                      </a>
+                      {/* </a> */}
+                      <DeleteBtn onClick={() => this.deleteBook(article._id)} />
+                    </ListItem>
+                  );
+                })}
+              </List>
+            ) : (
+                <h3>No Results to Display</h3>
+              )}
           </Col>
         </Row>
       </Container>
