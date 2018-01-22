@@ -91,10 +91,11 @@ class Articles extends React.Component {
     return (
       <Container fluid>
         <Row>
-          <Col size="md-6">
-            <Jumbotron>
+          <Col size="md-12 sm-12">
+            {/* <Jumbotron>
               <h1>What Books Should I Read?</h1>
-            </Jumbotron>
+            </Jumbotron> */}
+            <List title="Search">
             <form>
               <Input
                 value={this.state.topic}
@@ -127,41 +128,17 @@ class Articles extends React.Component {
                 Search for Article!
               </FormBtn>
             </form>
+            </List>
           </Col>
-          <Col size="md-6 sm-12">
-            <Jumbotron>
+          <Col size="md-12 sm-12">
+            {/* <Jumbotron>
               <h1>Books On My List</h1>
-            </Jumbotron>
-            {/* {this.state.books.length ? (
-              <List>
-                {this.state.books.map(book => {
-                  return (
-                    <ListItem key={book._id}>
-                      <a href={"/books/" + book._id}>
-                        <strong>
-                          {book.title} by {book.author}
-                        </strong>
-                      </a>
-                      <DeleteBtn onClick={() => this.deleteBook(book._id)} />
-                    </ListItem>
-                  );
-                })}
-              </List>
-            ) : (
-                <h3>No Results to Display</h3>
-              )} */}
+            </Jumbotron> */}
                {this.state.articles.length ? (
-              <List>
+              <List title="Results">
                 {this.state.articles.map(article => {
                   return (
-                    <ListItem key={article._id}>
-                      {/* <a href={"/article/" + book._id}> */}
-                      <a href={article.web_url}>
-                        <strong>
-                          {article.headline} {article.byline ? "by " + article.byline : ""}
-                        </strong>
-                      </a>
-                      {/* </a> */}
+                    <ListItem key={article._id} headline={article.headline} url={article.web_url} byline={article.byline ? article.byline : ""}>
                       <DeleteBtn onClick={() => this.deleteBook(article._id)} />
                     </ListItem>
                   );
