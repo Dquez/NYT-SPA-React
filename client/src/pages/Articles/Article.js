@@ -1,6 +1,7 @@
 import React from "react";
 import Jumbotron from "../../components/Jumbotron";
 import DeleteBtn from "../../components/DeleteBtn";
+import SaveBtn from "../../components/SaveBtn";
 import API from "../../utils/API";
 import { Col, Row, Container } from "../../components/Grid";
 import { List, ListItem } from "../../components/List";
@@ -41,6 +42,15 @@ class Articles extends React.Component {
   //     .catch(err => console.log(err));
   // };
 
+    // Deletes a book from the database with a given id, then reloads books from the db
+    saveArticle = id => {
+      const article = this.state.articles.filter(article=> article._id === id);
+      console.log(article[0]);
+      API.saveArticle(article[0])
+        .then(res => this.loadBooks())
+        .catch(err => console.log(err));
+    };
+
   // Handles updating component state when the user types into the input field
   handleInputChange = event => {
     const { name, value } = event.target;
@@ -68,7 +78,8 @@ class Articles extends React.Component {
               _id: article._id,
               byline: article.byline.original,
               headline: article.headline.main,
-              web_url : article.web_url
+              web_url : article.web_url,
+              date: article.pub_date.split("T")[0]
             }
           })
           self.setState({
@@ -139,7 +150,8 @@ class Articles extends React.Component {
                 {this.state.articles.map(article => {
                   return (
                     <ListItem key={article._id} headline={article.headline} url={article.web_url} byline={article.byline ? article.byline : ""}>
-                      <DeleteBtn onClick={() => this.deleteBook(article._id)} />
+                      {/* <DeleteBtn onClick={() => this.deleteBook(article._id)} /> */}
+                      <SaveBtn onClick={() => this.saveArticle(article._id)} />
                     </ListItem>
                   );
                 })}

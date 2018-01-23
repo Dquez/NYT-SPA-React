@@ -59,7 +59,7 @@ router.post("/api/nyt", (req, res) => {
       console.log(error);
     });
 });
-// router.post("/api/articles", articleFunctions.create)
+router.post("/api/articles", articleFunctions.create)
 
 // router.delete("/api/books/:id", articleFunctions.remove)
 
