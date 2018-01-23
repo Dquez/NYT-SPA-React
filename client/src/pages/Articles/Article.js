@@ -1,6 +1,6 @@
 import React from "react";
 // import Jumbotron from "../../components/Jumbotron";
-import DeleteBtn from "../../components/DeleteBtn";
+// import DeleteBtn from "../../components/DeleteBtn";
 import SaveBtn from "../../components/SaveBtn";
 import API from "../../utils/API";
 import { Col, Row, Container } from "../../components/Grid";
@@ -117,9 +117,6 @@ class Articles extends React.Component {
       <Container fluid>
         <Row>
           <Col size="md-12 sm-12">
-            {/* <Jumbotron>
-              <h1>What Books Should I Read?</h1>
-            </Jumbotron> */}
             <List title="Search">
             <form>
               <Input
@@ -152,6 +149,7 @@ class Articles extends React.Component {
               >
                 Search for Article!
               </FormBtn>
+              
             </form>
             </List>
           </Col>
@@ -174,23 +172,7 @@ class Articles extends React.Component {
                 <h3>No Results to Display</h3>
               )}
           </Col>
-          <Col size="md-12 sm-12">
-               {this.state.savedArticles.length ? (
-              <List title="Saved Articles">
-              {console.log(this.state.savedArticles)}
-                {this.state.savedArticles.map(article => {
-                  return (
-                    <ListItem key={article._id} headline={article.headline} url={article.web_url} byline={article.byline ? article.byline : ""}>
-                      <DeleteBtn onClick={() => this.deleteBook(article._id)} />
-                      {/* <SaveBtn onClick={() => this.saveArticle(article._id)} /> */}
-                    </ListItem>
-                  );
-                })}
-              </List>
-            ) : (
-                <h3>No Saved Articles Yet</h3>
-              )}
-          </Col>
+
         </Row>
       </Container>
     );
@@ -198,3 +180,5 @@ class Articles extends React.Component {
 }
 
 export default Articles;
+
+
