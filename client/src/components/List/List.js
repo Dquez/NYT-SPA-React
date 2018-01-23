@@ -7,9 +7,9 @@ class List extends React.Component {
   render () {
 
     return (
-      <div class="panel panel-default">
-        <div class="panel-heading text-center"><h2>{this.props.title}</h2></div>
-        <div class="panel-body">{this.props.children}</div>
+      <div className="panel panel-default">
+        <div className="panel-heading text-center"><h2>{this.props.title}</h2></div>
+        <div className="panel-body">{this.props.children}</div>
       </div>
     );
   }
