@@ -2,18 +2,11 @@ const path = require("path");
 const router = require("express").Router();
 const db = require("../models");
 const axios = require("axios");
-
 const articleFunctions = {
   findAll: function (req, res) {
     db.Article
       .find(req.query)
       .sort({ date: -1 })
-      .then(dbModel => res.json(dbModel))
-      .catch(err => res.status(422).json(err));
-  },
-  findById: function (req, res) {
-    db.Article
-      .findById(req.params.id)
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
@@ -45,9 +38,6 @@ router.post("/api/nyt", (req, res) => {
   if(topic.includes(" ")){
     topic = topic.split(" ").join("");
   }
-  
-// searchURL = searchURL + "&begin_date=" + startYear + "0101";
-// searchURL = searchURL + "&end_date=" + endYear + "0101";
   const key = "b9f91d369ff59547cd47b931d8cbc56b:0:74623931";
   const queryURLBase = `https://api.nytimes.com/svc/search/v2/articlesearch.json?api-key=${key}&q=${topic}&begin_date=${startYear}&begin_date=${endYear}`;
   axios.get(queryURLBase)
@@ -55,13 +45,12 @@ router.post("/api/nyt", (req, res) => {
     res.json(response.data.response.docs);
     })
     .catch(function (error) {
-      // console.log("JERE");
       console.log(error);
     });
 });
 router.post("/api/articles", articleFunctions.create)
 
-// router.delete("/api/books/:id", articleFunctions.remove)
+router.delete("/api/books/:id", articleFunctions.remove)
 
 // router.get("/api/books/:id", articleFunctions.findById)
 

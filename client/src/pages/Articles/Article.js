@@ -1,6 +1,5 @@
 import React from "react";
-// import Jumbotron from "../../components/Jumbotron";
-// import DeleteBtn from "../../components/DeleteBtn";
+import Nav from "../../components/Nav";
 import SaveBtn from "../../components/SaveBtn";
 import API from "../../utils/API";
 import { Col, Row, Container } from "../../components/Grid";
@@ -14,8 +13,8 @@ class Articles extends React.Component {
       articles: [],
       savedArticles: [],
       topic: "",
-      startYear: null,
-      endYear: null
+      startYear: "2017-06-01",
+      endYear: "2018-01-10"
     }
   }
 
@@ -46,17 +45,9 @@ class Articles extends React.Component {
       )
       .catch(err => console.log(err));
   };
-
-  // // Deletes a book from the database with a given id, then reloads books from the db
-  // deleteBook = id => {
-  //   API.deleteBook(id)
-  //     .then(res => this.loadBooks())
-  //     .catch(err => console.log(err));
-  // };
-
-    // Deletes a book from the database with a given id, then reloads books from the db
+    //Saves an article to the database, then reloads books from the db
     saveArticle = id => {
-      // const self = this;
+      // Makes a clone of the current state by using the spread method on this.state
       const newState = { ...this.state };
       const article = newState.articles.filter(article=> article._id === id);
       article[0].isSaved = true;
@@ -116,53 +107,45 @@ class Articles extends React.Component {
     return (
       <Container fluid>
         <Row>
+        <Nav articleType="notSaved"/>
           <Col size="md-12 sm-12">
             <List title="Search">
             <form>
               <Input
+                type="text"
                 value={this.state.topic}
                 onChange={this.handleInputChange}
                 name="topic"
-                placeholder="Topic (required)"
+                placeholder="Topic (required)" 
               />
               <Input
+                type="date"
                 value={this.state.startYear}
                 onChange={this.handleInputChange}
                 name="startYear"
-                placeholder="Start Year (YYYMMDD)"
               />
               <Input
+                required pattern="[0-9]{4}/[0-9]{2}/[0-9]{2}"
+                type="date"
                 value={this.state.endYear}
                 onChange={this.handleInputChange}
                 name="endYear"
-                placeholder="End Year  (YYYMMDD)"
               />
-              {/* <TextArea
-                value={this.state.synopsis}
-                onChange={this.handleInputChange}
-                name="synopsis"
-                placeholder="Synopsis (Optional)"
-              /> */}
               <FormBtn
                 disabled={!(this.state.topic && this.state.startYear && this.state.endYear)}
                 onClick={this.handleFormSubmit}
               >
                 Search for Article!
               </FormBtn>
-              
             </form>
             </List>
           </Col>
           <Col size="md-12 sm-12">
-            {/* <Jumbotron>
-              <h1>Books On My List</h1>
-            </Jumbotron> */}
                {this.state.articles.length ? (
               <List title="Results">
                 {articlesNotSaved.map(article => {
                   return (
                     <ListItem key={article._id} headline={article.headline} url={article.web_url} byline={article.byline ? article.byline : ""}>
-                      {/* <DeleteBtn onClick={() => this.deleteBook(article._id)} /> */}
                       <SaveBtn onClick={() => this.saveArticle(article._id)} />
                     </ListItem>
                   );
