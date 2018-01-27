@@ -13,12 +13,12 @@ class Articles extends React.Component {
     }
   }
 
-  // When the component mounts, load all books and save them to this.state.books
+  // When the component mounts, load all articles and save them to this.state.savedArticles
   componentDidMount() {
     this.loadArticles();
   }
 
-  // Loads all books  and sets them to this.state.books
+  // Loads all articles  and sets them to this.state.savedArticles
   loadArticles = () => {
     API.getArticles()
       .then(res => {
@@ -28,18 +28,18 @@ class Articles extends React.Component {
             byline: article.byline,
             headline: article.headline,
             web_url : article.web_url,
+            // get rid of seconds/milliseconds using the split  method
             date: article.date.split("T")[0],
             isSaved: false
           }
         })
-        console.log(articles);
         this.setState({savedArticles: articles});
       }
       )
       .catch(err => console.log(err));
   };
 
-  // Deletes a book from the database with a given id, then reloads books from the db
+  // Deletes a article from the database with a given id, then reloads articles from the db
   deleteArticle = id => {
     API.deleteArticle(id)
       .then(res => this.loadArticles())

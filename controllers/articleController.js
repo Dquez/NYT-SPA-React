@@ -2,6 +2,7 @@ const path = require("path");
 const router = require("express").Router();
 const db = require("../models");
 const axios = require("axios");
+
 const articleFunctions = {
   findAll: function (req, res) {
     db.Article
@@ -30,15 +31,18 @@ const articleFunctions = {
       .catch(err => res.status(422).json(err));
   }
 }
-
+// Initial grab of all the articles in the DB
 router.get("/api/articles", articleFunctions.findAll)
 
+// post because the info from the form is coming from the user here
 router.post("/api/nyt", (req, res) => {
   let {topic, startYear, endYear} = req.body;
+  // if topic includes spaces i.e. "Donald Trump" we split the string to make it an array then concatenate each otherwise spaced word
   if(topic.includes(" ")){
     topic = topic.split(" ").join("");
   }
   const key = "b9f91d369ff59547cd47b931d8cbc56b:0:74623931";
+  // makes a request to the NYT api with our key, topic, start year and end year injected into our query thanks to ES6's template literals
   const queryURLBase = `https://api.nytimes.com/svc/search/v2/articlesearch.json?api-key=${key}&q=${topic}&begin_date=${startYear}&begin_date=${endYear}`;
   axios.get(queryURLBase)
   .then(function (response) {
@@ -48,11 +52,10 @@ router.post("/api/nyt", (req, res) => {
       console.log(error);
     });
 });
+// post request to save to the DB
 router.post("/api/articles", articleFunctions.create)
-
-router.delete("/api/books/:id", articleFunctions.remove)
-
-// router.get("/api/books/:id", articleFunctions.findById)
+// delete article by ID
+router.delete("/api/articles/:id", articleFunctions.remove)
 
 // If no API routes are hit, send the React app
 router.use(function (req, res) {

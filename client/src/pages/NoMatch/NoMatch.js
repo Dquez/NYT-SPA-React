@@ -5,7 +5,7 @@ import Jumbotron from "../../components/Jumbotron";
 class NoMatch extends React.Component {
 
   render() {
-
+// This page only gets displayed when the user doesn't hit one of our predefined matching routes.
     return (
       <Container fluid>
         <Row>

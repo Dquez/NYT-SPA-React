@@ -7,51 +7,52 @@ import { List, ListItem } from "../../components/List";
 import { Input, FormBtn } from "../../components/Form";
 
 class Articles extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      articles: [],
-      savedArticles: [],
-      topic: "",
-      startYear: "2017-06-01",
-      endYear: "2018-01-10"
-    }
-  }
-
-  // When the component mounts, load all books and save them to this.state.books
-  componentDidMount() {
-    this.loadArticles();
-  }
-
-  // Loads all books  and sets them to this.state.books
-  loadArticles = () => {
-    API.getArticles()
-      .then(res => {
-        const articles = res.data.map(article => {
-          return {
-            _id: article._id,
-            byline: article.byline,
-            headline: article.headline,
-            web_url : article.web_url,
-            date: article.date.split("T")[0],
-            isSaved: false
-          }
-        })
-        console.log(articles);
-        this.setState({savedArticles: articles});
+    constructor(props) {
+      super(props);
+      this.state = {
+        articles: [],
+        topic: "",
+        startYear: "2017-06-01",
+        endYear: "2018-01-10"
       }
-       
-        // this.setState({ books: res.data, title: "", author: "", synopsis: "" })
-      )
-      .catch(err => console.log(err));
-  };
-    //Saves an article to the database, then reloads books from the db
+    }
+
+    // When the component mounts, load all articles and save them to this.state.articles
+    componentDidMount() {
+      this.loadArticles();
+    }
+
+    // Loads all articles  and sets them to this.state.articles
+    loadArticles = () => {
+      API.getArticles()
+        .then(res => {
+          const articles = res.data.map(article => {
+            return {
+              _id: article._id,
+              byline: article.byline,
+              headline: article.headline,
+              web_url: article.web_url,
+              // get rid of seconds/milliseconds using the split  method
+              date: article.date.split("T")[0],
+              isSaved: false
+            }
+          })
+          this.setState({
+            savedArticles: articles
+          });
+        })
+        .catch(err => console.log(err));
+    };
+    //Saves an article to the database, then reloads articles from the db
     saveArticle = id => {
       // Makes a clone of the current state by using the spread method on this.state
-      const newState = { ...this.state };
-      const article = newState.articles.filter(article=> article._id === id);
+      const newState = { ...this.state
+      };
+      const article = newState.articles.filter(article => article._id === id);
       article[0].isSaved = true;
-      this.setState({newState})
+      this.setState({
+        newState
+      })
       API.saveArticle(article[0])
         .then(res => {
           this.loadArticles()
@@ -59,50 +60,53 @@ class Articles extends React.Component {
         .catch(err => console.log(err));
     };
 
-  // Handles updating component state when the user types into the input field
-  handleInputChange = event => {
-    const { name, value } = event.target;
-    this.setState({
-      [name]: value
-    });
-  };
+    // Handles updating component state when the user types into the input field
+    handleInputChange = event => {
+      const {
+        name,
+        value
+      } = event.target;
+      this.setState({
+        [name]: value
+      });
+    };
 
-  // When the form is submitted, use the API.saveBook method to save the book data
-  // Then reload books from the database
-  handleFormSubmit = event => {
-    event.preventDefault();
+    // When the form is submitted, use the API.getArticlesFromNYT method to retrieve articles from the NYT
+    // Then reload articles from the database
+    handleFormSubmit = event => {
+      event.preventDefault();
       const self = this;
+      // keep a reference of this saved in a variable to use later on
       API.getArticlesFromNYT({
-        topic: this.state.topic,
-        startYear: this.state.startYear,
-        endYear: this.state.endYear
-      })
-      .then(function (response) {
-        // console.log(self);
-        if (response) {
-          const articles = response.data.map(article => {
-            return {
-              _id: article._id,
-              byline: article.byline.original,
-              headline: article.headline.main,
-              web_url : article.web_url,
-              date: article.pub_date.split("T")[0],
-              isSaved: false
-            }
-          })
-          self.setState({articles});
-        }
-        else {
-          alert("Sorry, no articles appeared from your search parameters. Please try again.");
-        }
-      })
+          topic: this.state.topic,
+          startYear: this.state.startYear,
+          endYear: this.state.endYear
+        })
+        .then(function (response) {
+          if (response) {
+            const articles = response.data.map(article => {
+              return {
+                _id: article._id,
+                byline: article.byline.original,
+                headline: article.headline.main,
+                web_url: article.web_url,
+                date: article.pub_date.split("T")[0],
+                isSaved: false
+              }
+            })
+            self.setState({
+              articles
+            });
+          } else {
+            alert("Sorry, no articles appeared from your search parameters. Please try again.");
+          }
+        })
         .catch(function (error) {
-            console.log(error);
+          console.log(error);
         });
-  };
+    };
 
   render() {
-    // const {articles} = this.state;
     const articlesNotSaved = this.state.articles.filter(article => !article.isSaved)
     return (
       <Container fluid>

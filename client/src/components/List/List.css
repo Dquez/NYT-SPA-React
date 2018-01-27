@@ -31,3 +31,12 @@
 .list-overflow-container li:last-child {
   border-bottom: none;
 }
+
+.panel-default>.panel-heading {
+  background-color:#274046;
+  background: #274046;
+}
+
+h2 {
+  color: #e20404;
+}

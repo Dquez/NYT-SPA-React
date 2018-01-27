@@ -19,9 +19,14 @@ class ListItem extends React.Component {
   }
 }
 
+
 ListItem.props = {
-  children: PropTypes.node
+  children: PropTypes.node,
+  headline: PropTypes.string,
+  url: PropTypes.string,
+  byline: PropTypes.string
 }
+
 
 export default ListItem;
 

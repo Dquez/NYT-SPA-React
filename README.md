@@ -1,42 +1,29 @@
-# Create React Express App
+# Medium_Tech_News_Scraper
 
-## About This Boilerplate
+## Overview
 
-This setup allows for a Node/Express/React app which can be easily deployed to Heroku.
+In this project, I created app that allows you to scrape the [New York Times](https://www.nytimes.com/) This app is a MERN SPA which performs the majority of it's functions on the front end using React. Routing is handled by react router to render each component to the page correctly. This app is utilizing a Mongoose ORM to query the Mongo database, and sending the data back to the user using a custom API and axios calls. This app interacts with the databse using all the CRUD methods.
 
-The front-end React app will auto-reload as it's updated via webpack dev server, and the backend Express app will auto-reload independently with nodemon.
 
-## Starting the app locally
+## Inspiration
+New York Times is one of the most influential newspapers of our time. I wanted to make an easy and interactive way to utilize the NYT's  API so visitors can view and save persistent data in real time. I also wanted to put my MERN stack skills to the test and try a simple SPA to better my understanding of how powerful React is.
 
-Start by installing front and backend dependencies. While in this directory, run the following commands:
 
-```
-yarn install
-cd client
-yarn install
-cd ..
-``
+## How I built it
 
-After both installations complete, run the following command in your terminal:
+I primarily worked with node.js, handlebars, and the express frame work to handle routing, connecting to the server and sending files to the front end. On the front end, I used html, javascript, jQuery and CSS and Semantic ui styling framework.
+There is still room for improvement including adding more pages for different websites to scrape and some interactivity with clicking buttons. I included the following packages:
+* [axios](https://www.npmjs.com/package/axios)
+* [bodyParser](https://www.npmjs.com/package/body-parser)
+* [express](https://www.npmjs.com/package/express)
+* [mongoose](https://www.npmjs.com/package/mongoose)
+* [nodemon](https://www.npmjs.com/package/nodemon)
+* [request](https://www.npmjs.com/package/request)
+* [react-router-dom](https://www.npmjs.com/package/react-router-dom)
 
-```
-yarn start
-```
+Running an npm install should install all of the dependencies you need to get this project started.
 
-That's it, your app should be running on <http://localhost:3000>. The Express server should intercept any AJAX requests from the client.
+## What I learned
+This app helped me understand the architecture and strategic choices that are required when making a React app. Reusability and compartmentalization are key when it comes to building a robust React app, especially when your app needs to scale.
 
-## Deployment (Heroku)
-
-After confirming that you have an up to date git repository and a Heroku app created, complete the following:
-
-1. Build the React app for production by running the following command:
-
-```
-yarn build
-```
-
-2. Add and commit all changes to git
-
-3. Push to Heroku
-
-If all previous steps were followed correctly, your application should be deployed to Heroku!
+[NYT-SPA](https://nyt-spa-react.herokuapp.com/)

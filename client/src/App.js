@@ -11,6 +11,7 @@ const App = () =>
         <Route exact path="/" component={Articles} />
         <Route exact path="/articles" component={Articles} />
         <Route exact path="/savedArticles" component={SavedArticles} />
+        {/* If no url match is found, we send them our generic 404 page */}
         <Route component={NoMatch} />
       </Switch>
     </div>
