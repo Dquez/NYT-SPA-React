@@ -1,5 +1,4 @@
-# Medium_Tech_News_Scraper
-
+# NYT-SPA-React
 ## Overview
 
 In this project, I created app that allows you to scrape the [New York Times](https://www.nytimes.com/) This app is a MERN SPA which performs the majority of it's functions on the front end using React. Routing is handled by react router to render each component to the page correctly. This app is utilizing a Mongoose ORM to query the Mongo database, and sending the data back to the user using a custom API and axios calls. This app interacts with the databse using all the CRUD methods.
