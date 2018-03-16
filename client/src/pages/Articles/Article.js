@@ -12,8 +12,8 @@ class Articles extends React.Component {
       this.state = {
         articles: [],
         topic: "",
-        startYear: "2017-06-01",
-        endYear: "2018-01-10"
+        startYear: "2014-06-01",
+        endYear: "2018-03-11"
       }
     }
 
@@ -83,7 +83,8 @@ class Articles extends React.Component {
           endYear: this.state.endYear
         })
         .then(function (response) {
-          if (response) {
+          // This checks to see if we get a response with data back from the API call
+          if (Object.keys(response).length > 0 && response.constructor === Object) {
             const articles = response.data.map(article => {
               return {
                 _id: article._id,

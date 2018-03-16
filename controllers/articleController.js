@@ -46,7 +46,7 @@ router.post("/api/nyt", (req, res) => {
   const queryURLBase = `https://api.nytimes.com/svc/search/v2/articlesearch.json?api-key=${key}&q=${topic}&begin_date=${startYear}&begin_date=${endYear}`;
   axios.get(queryURLBase)
   .then(function (response) {
-    res.json(response.data.response.docs);
+    return res.json(response.data.response.docs);
     })
     .catch(function (error) {
       console.log(error);
