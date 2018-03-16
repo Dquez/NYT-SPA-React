@@ -46,8 +46,7 @@ class Articles extends React.Component {
     //Saves an article to the database, then reloads articles from the db
     saveArticle = id => {
       // Makes a clone of the current state by using the spread method on this.state
-      const newState = { ...this.state
-      };
+      const newState = { ...this.state};
       const article = newState.articles.filter(article => article._id === id);
       article[0].isSaved = true;
       this.setState({
