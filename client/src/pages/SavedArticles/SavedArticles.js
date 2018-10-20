@@ -53,7 +53,6 @@ class Articles extends React.Component {
           <Col size="md-12 sm-12">
                {this.state.savedArticles.length ? (
               <List title="Saved Articles">
-              {console.log(this.state.savedArticles)}
                 {this.state.savedArticles.map(article => {
                   return (
                     <ListItem key={article._id} headline={article.headline} url={article.web_url} byline={article.byline ? article.byline : ""}>
