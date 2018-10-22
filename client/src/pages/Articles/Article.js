@@ -13,7 +13,7 @@ class Articles extends React.Component {
         articles: [],
         topic: "",
         startYear: "2014-06-01",
-        endYear: "2018-03-11"
+        endYear: "2018-10-21"
       }
     }
 
