@@ -17,11 +17,6 @@ class Articles extends React.Component {
       }
     }
 
-    // When the component mounts, load all articles and save them to this.state.articles
-    componentDidMount() {
-      this.loadArticles();
-    }
-
     // Loads all articles  and sets them to this.state.articles
     loadArticles = () => {
       API.getArticles()
@@ -61,13 +56,8 @@ class Articles extends React.Component {
 
     // Handles updating component state when the user types into the input field
     handleInputChange = event => {
-      const {
-        name,
-        value
-      } = event.target;
-      this.setState({
-        [name]: value
-      });
+      const {name, value} = event.target;
+      this.setState({ [name]: value });
     };
 
     // When the form is submitted, use the API.getArticlesFromNYT method to retrieve articles from the NYT
