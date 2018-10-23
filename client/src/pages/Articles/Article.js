@@ -100,8 +100,16 @@ class Articles extends React.Component {
           console.log(error);
         });
     };
+    renderArticles () {
+      // grab articles object which is structured as { key : {article}}, refactored from an array using lodash
+      const {articles} = this.props;
+      console.log(articles);
+
+  }
 
   render() {
+    const {articles} = this.props;
+    // check if post exists yet in props, which it wont during initial fetch request execution
     // const articlesNotSaved = this.state.articles.filter(article => !article.isSaved)
     return (
       <Container fluid>
@@ -140,6 +148,7 @@ class Articles extends React.Component {
             </List>
           </Col>
           <Col size="md-12 sm-12">
+              {Object.keys(articles).length > 0 ?  this.renderArticles() : ""}
                {/* {this.state.articles.length ? (
               <List title="Results">
                 {articlesNotSaved.map(article => {
