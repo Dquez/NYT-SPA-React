@@ -7,8 +7,7 @@ export default function (state = {}, action) {
             // set up an object of objects, in which the keys("id") correspond to each "article" object
             return NYTCleanup(action.payload);
         case SAVE_ARTICLE:
-            // removing the saved article from state
-            return _.omit(state, action.payload.data._id);
+            return {...state, [action.payload.data._id]: action.payload.data};
         default:
             return state;
     }

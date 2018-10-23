@@ -47,7 +47,6 @@ class Articles extends React.Component {
       article.isSaved = true;
       this.props.saveArticle(article)
         .then(res => {
-          console.log(res);
         })
         .catch(err => console.log(err));
     };
@@ -96,8 +95,7 @@ class Articles extends React.Component {
     renderArticles () {
       // grab articles object which is structured as { key : {article}}, refactored from an array using lodash
       let {articles} = this.props;
-      console.log("here");
-      const filteredArticles = _.omit(articles, "isSaved");
+      const filteredArticles = _.filter(articles, article => !article.isSaved);
       return (
         <List title="Results">
           {_.map(filteredArticles, article => {
