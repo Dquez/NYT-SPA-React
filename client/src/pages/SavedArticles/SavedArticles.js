@@ -1,6 +1,6 @@
 import React from "react";
 import DeleteBtn from "../../components/DeleteBtn";
-import API from "../../utils/API";
+// import API from "../../utils/API";
 import { Col, Row, Container } from "../../components/Grid";
 import { List, ListItem } from "../../components/List";
 import Nav from "../../components/Nav";
@@ -20,31 +20,31 @@ class Articles extends React.Component {
 
   // Loads all articles  and sets them to this.state.savedArticles
   loadArticles = () => {
-    API.getArticles()
-      .then(res => {
-        const articles = res.data.map(article => {
-          return {
-            _id: article._id,
-            byline: article.byline,
-            headline: article.headline,
-            web_url : article.web_url,
-            // get rid of seconds/milliseconds using the split  method
-            date: article.date.split("T")[0],
-            isSaved: false
-          }
-        })
-        this.setState({savedArticles: articles});
-      }
-      )
-      .catch(err => console.log(err));
+    // API.getArticles()
+    //   .then(res => {
+    //     const articles = res.data.map(article => {
+    //       return {
+    //         _id: article._id,
+    //         byline: article.byline,
+    //         headline: article.headline,
+    //         web_url : article.web_url,
+    //         // get rid of seconds/milliseconds using the split  method
+    //         date: article.date.split("T")[0],
+    //         isSaved: false
+    //       }
+    //     })
+    //     this.setState({savedArticles: articles});
+    //   }
+    //   )
+    //   .catch(err => console.log(err));
   };
 
   // Deletes a article from the database with a given id, then reloads articles from the db
-  deleteArticle = id => {
-    API.deleteArticle(id)
-      .then(res => this.loadArticles())
-      .catch(err => console.log(err));
-  };
+  // deleteArticle = id => {
+  //   API.deleteArticle(id)
+  //     .then(res => this.loadArticles())
+  //     .catch(err => console.log(err));
+  // };
   render() {
     return (
       <Container fluid>

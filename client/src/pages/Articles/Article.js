@@ -18,27 +18,7 @@ class Articles extends React.Component {
         endYear: "2018-10-21"
       }
     }
-    // Loads all articles  and sets them to this.state.articles
-    // loadArticles = () => {
-    //   this.props.getArticles()
-    //     .then(res => {
-    //       const articles = res.data.map(article => {
-    //         return {
-    //           _id: article._id,
-    //           byline: article.byline,
-    //           headline: article.headline,
-    //           web_url: article.web_url,
-    //           // get rid of seconds/milliseconds using the split  method
-    //           date: article.date.split("T")[0],
-    //           isSaved: false
-    //         }
-    //       })
-    //       // this.setState({
-    //       //   savedArticles: articles
-    //       // });
-    //     })
-    //     .catch(err => console.log(err));
-    // };
+    
     //Saves an article to the database, then reloads articles from the db
     saveArticle = (id, callback) => {
       const {articles} = this.props;
@@ -46,8 +26,7 @@ class Articles extends React.Component {
       const article = {...articles[id]};
       article.isSaved = true;
       this.props.saveArticle(article)
-        .then(res => {
-        })
+        .then(res => {})
         .catch(err => console.log(err));
     };
 
@@ -57,7 +36,6 @@ class Articles extends React.Component {
       this.setState({ [name]: value });
     };
 
-    // When the form is submitted, use the API.getArticlesFromNYT method to retrieve articles from the NYT
     // Then reload articles from the database
     handleFormSubmit = event => {
       event.preventDefault();
@@ -67,27 +45,7 @@ class Articles extends React.Component {
           startYear: this.state.startYear,
           endYear: this.state.endYear
         })
-        .then(function (response) {
-          // This checks to see if we get a response with data back from the API call
-          // if (Object.keys(response).length > 0 && response.constructor === Object) {
-          //   const articles = response.data.map(article => {
-          //     return {
-          //       _id: article._id,
-          //       byline: article.byline.original,
-          //       headline: article.headline.main,
-          //       web_url: article.web_url,
-          //       date: article.pub_date.split("T")[0],
-          //       isSaved: false
-          //     }
-          //   })
-          //   self.setState({
-          //     articles
-          //   });
-          // } 
-          // else {
-          //   alert("Sorry, no articles appeared from your search parameters. Please try again.");
-          // }
-        })
+        .then(function (response) {})
         .catch(function (error) {
           console.log(error);
         });
