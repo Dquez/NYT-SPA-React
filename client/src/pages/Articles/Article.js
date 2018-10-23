@@ -1,7 +1,7 @@
 import React from "react";
 import Nav from "../../components/Nav";
 import SaveBtn from "../../components/SaveBtn";
-// import API from "../../utils/API";
+import _ from "lodash";
 import {connect} from "react-redux";
 import {saveArticle, getArticles, getArticlesFromNYT} from "../../actions";
 import { Col, Row, Container } from "../../components/Grid";
@@ -45,12 +45,13 @@ class Articles extends React.Component {
       // Makes a clone of the current state by using the spread method on this.state
       // const newState = { ...this.state};
       const {articles} = this.props;
-      const article = articles.filter(article => article._id === id);
-      article[0].isSaved = true;
+      articles[id].isSaved = true;
       // this.setState({
       //   newState
       // })
-      this.props.saveArticle(article[0])
+      const article = Object.assign({}, articles[id]);
+      console.log(article)
+      this.props.saveArticle(articles[id])
         .then(res => {
           // this.loadArticles()
         })
@@ -75,7 +76,6 @@ class Articles extends React.Component {
           endYear: this.state.endYear
         })
         .then(function (response) {
-
           // This checks to see if we get a response with data back from the API call
           // if (Object.keys(response).length > 0 && response.constructor === Object) {
           //   const articles = response.data.map(article => {
@@ -102,8 +102,19 @@ class Articles extends React.Component {
     };
     renderArticles () {
       // grab articles object which is structured as { key : {article}}, refactored from an array using lodash
-      const {articles} = this.props;
-      console.log(articles);
+      let {articles} = this.props;
+      articles = _.omit(articles, "isSaved");
+      return (
+        <List title="Results">
+          {_.map(articles, article => {
+            return (
+              <ListItem key={article._id} headline={article.headline} url={article.web_url} byline={article.byline ? article.byline : ""}>
+                <SaveBtn onClick={() => this.saveArticle(article._id)} />
+              </ListItem>
+            );
+          })}
+        </List>
+      )
 
   }
 
@@ -149,19 +160,6 @@ class Articles extends React.Component {
           </Col>
           <Col size="md-12 sm-12">
               {Object.keys(articles).length > 0 ?  this.renderArticles() : ""}
-               {/* {this.state.articles.length ? (
-              <List title="Results">
-                {articlesNotSaved.map(article => {
-                  return (
-                    <ListItem key={article._id} headline={article.headline} url={article.web_url} byline={article.byline ? article.byline : ""}>
-                      <SaveBtn onClick={() => this.saveArticle(article._id)} />
-                    </ListItem>
-                  );
-                })}
-              </List>
-            ) : (
-                <h3>No Results to Display</h3>
-              )} */}
           </Col>
 
         </Row>

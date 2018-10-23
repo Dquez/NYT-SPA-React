@@ -52,8 +52,8 @@ router.post("/api/nyt", (req, res) => {
       console.log(error);
     });
 });
-// post request to save to the DB
-router.post("/api/articles", articleFunctions.create)
+// post request to save to the DB, we use update instead of create in case user tries to save an article already existent in the db
+router.post("/api/articles", articleFunctions.update)
 // delete article by ID
 router.delete("/api/articles/:id", articleFunctions.remove)
 

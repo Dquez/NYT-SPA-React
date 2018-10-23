@@ -6,6 +6,8 @@ export default function (state = {}, action) {
         case FETCH_NYT_ARTICLES:
             // set up an object of objects, in which the keys("id") correspond to each "article" object
             return NYTCleanup(action.payload);
+        // case SAVE_ARTICLE:
+        //     return NYTCleanup(action.payload);
         default:
             return state;
     }
@@ -17,7 +19,7 @@ function NYTCleanup (dataObj) {
         const articles = dataObj.data.map(article => {
           return {
             _id: article._id,
-            byline: article.byline.original || "N/A",
+            byline: article.byline.original || "",
             headline: article.headline.main,
             web_url: article.web_url,
             date: article.pub_date.split("T")[0],

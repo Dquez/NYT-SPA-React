@@ -27,6 +27,7 @@ export function getArticlesFromNYT (searchObj) {
 }
 // Saves an article to the database
 export function saveArticle (articleData, callback) {
+    console.log(articleData);
     const request = axios.post(`${ROOT_URL}/articles`, articleData)
     // .then(()=> {
     //     callback();
