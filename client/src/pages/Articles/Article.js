@@ -18,7 +18,6 @@ class Articles extends React.Component {
         endYear: "2018-10-21"
       }
     }
-
     // Loads all articles  and sets them to this.state.articles
     // loadArticles = () => {
     //   this.props.getArticles()
@@ -41,19 +40,14 @@ class Articles extends React.Component {
     //     .catch(err => console.log(err));
     // };
     //Saves an article to the database, then reloads articles from the db
-    saveArticle = id => {
-      // Makes a clone of the current state by using the spread method on this.state
-      // const newState = { ...this.state};
+    saveArticle = (id, callback) => {
       const {articles} = this.props;
-      articles[id].isSaved = true;
-      // this.setState({
-      //   newState
-      // })
-      const article = Object.assign({}, articles[id]);
-      console.log(article)
-      this.props.saveArticle(articles[id])
+      // make a clone of the article we're saving
+      const article = {...articles[id]};
+      article.isSaved = true;
+      this.props.saveArticle(article)
         .then(res => {
-          // this.loadArticles()
+          console.log(res);
         })
         .catch(err => console.log(err));
     };
@@ -68,7 +62,6 @@ class Articles extends React.Component {
     // Then reload articles from the database
     handleFormSubmit = event => {
       event.preventDefault();
-      const self = this;
       // keep a reference of this saved in a variable to use later on
       this.props.getArticlesFromNYT({
           topic: this.state.topic,
@@ -103,10 +96,11 @@ class Articles extends React.Component {
     renderArticles () {
       // grab articles object which is structured as { key : {article}}, refactored from an array using lodash
       let {articles} = this.props;
-      articles = _.omit(articles, "isSaved");
+      console.log("here");
+      const filteredArticles = _.omit(articles, "isSaved");
       return (
         <List title="Results">
-          {_.map(articles, article => {
+          {_.map(filteredArticles, article => {
             return (
               <ListItem key={article._id} headline={article.headline} url={article.web_url} byline={article.byline ? article.byline : ""}>
                 <SaveBtn onClick={() => this.saveArticle(article._id)} />
@@ -120,8 +114,6 @@ class Articles extends React.Component {
 
   render() {
     const {articles} = this.props;
-    // check if post exists yet in props, which it wont during initial fetch request execution
-    // const articlesNotSaved = this.state.articles.filter(article => !article.isSaved)
     return (
       <Container fluid>
         <Row>
