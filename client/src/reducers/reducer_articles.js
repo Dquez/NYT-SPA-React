@@ -1,4 +1,4 @@
-import {FETCH_ARTICLES, DELETE_ARTICLE, FETCH_NYT_ARTICLES, SAVE_ARTICLE} from "../actions";
+import {FETCH_NYT_ARTICLES, SAVE_ARTICLE} from "../actions";
 import _ from "lodash";
 // state argument is not application state, only the state this reduce is responsible for
 export default function (state = {}, action) {

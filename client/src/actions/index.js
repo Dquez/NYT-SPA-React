@@ -36,13 +36,13 @@ export function saveArticle (articleData) {
 
 // Deletes the article by the given id
 export function deleteArticle (id, callback) {
-    const request = axios.delete(`${ROOT_URL}/articles/${id}`)
+    axios.delete(`${ROOT_URL}/articles/${id}`)
     // .then(()=>{
         // callback invoked once data is deleted from backend
         // callback();
     // })
     return {
         type: DELETE_ARTICLE,
-        payload: request
+        payload: id
     }
 }

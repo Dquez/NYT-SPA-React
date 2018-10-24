@@ -3,7 +3,7 @@ import Nav from "../../components/Nav";
 import SaveBtn from "../../components/SaveBtn";
 import _ from "lodash";
 import {connect} from "react-redux";
-import {saveArticle, getArticles, getArticlesFromNYT} from "../../actions";
+import {saveArticle, getArticlesFromNYT} from "../../actions";
 import { Col, Row, Container } from "../../components/Grid";
 import { List, ListItem } from "../../components/List";
 import { Input, FormBtn } from "../../components/Form";
@@ -18,7 +18,7 @@ class Articles extends React.Component {
         endYear: "2018-10-21"
       }
     }
-    
+
     //Saves an article to the database, then reloads articles from the db
     saveArticle = (id, callback) => {
       const {articles} = this.props;
@@ -123,5 +123,5 @@ function mapStateToProps({articles}){
   };
 }
 
-// savedArticles, getArticles, getArticlesFromNYT are destructured methods, now hooked up to redux and available as props
-export default connect(mapStateToProps, {saveArticle, getArticles, getArticlesFromNYT})(Articles);
+// savedArticles, getArticlesFromNYT are destructured methods, now hooked up to redux and available as props
+export default connect(mapStateToProps, {saveArticle, getArticlesFromNYT})(Articles);
