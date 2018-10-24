@@ -1,7 +1,9 @@
 import React from "react";
 import Nav from "../../components/Nav";
 import SaveBtn from "../../components/SaveBtn";
-import API from "../../utils/API";
+import _ from "lodash";
+import {connect} from "react-redux";
+import {saveArticle, getArticlesFromNYT} from "../../actions";
 import { Col, Row, Container } from "../../components/Grid";
 import { List, ListItem } from "../../components/List";
 import { Input, FormBtn } from "../../components/Form";
@@ -10,104 +12,63 @@ class Articles extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
-        articles: [],
         topic: "",
         startYear: "2014-06-01",
         endYear: "2018-10-21"
       }
     }
 
-    // When the component mounts, load all articles and save them to this.state.articles
-    componentDidMount() {
-      this.loadArticles();
-    }
-
-    // Loads all articles  and sets them to this.state.articles
-    loadArticles = () => {
-      API.getArticles()
-        .then(res => {
-          const articles = res.data.map(article => {
-            return {
-              _id: article._id,
-              byline: article.byline,
-              headline: article.headline,
-              web_url: article.web_url,
-              // get rid of seconds/milliseconds using the split  method
-              date: article.date.split("T")[0],
-              isSaved: false
-            }
-          })
-          this.setState({
-            savedArticles: articles
-          });
-        })
-        .catch(err => console.log(err));
-    };
     //Saves an article to the database, then reloads articles from the db
-    saveArticle = id => {
-      // Makes a clone of the current state by using the spread method on this.state
-      const newState = { ...this.state};
-      const article = newState.articles.filter(article => article._id === id);
-      article[0].isSaved = true;
-      this.setState({
-        newState
-      })
-      API.saveArticle(article[0])
-        .then(res => {
-          this.loadArticles()
-        })
+    saveArticle = (id) => {
+      const {articles} = this.props;
+      // make a clone of the article we're saving
+      const article = {...articles[id]};
+      article.isSaved = true;
+      this.props.saveArticle(article)
+        .then(res => {})
         .catch(err => console.log(err));
     };
 
     // Handles updating component state when the user types into the input field
     handleInputChange = event => {
-      const {
-        name,
-        value
-      } = event.target;
-      this.setState({
-        [name]: value
-      });
+      const {name, value} = event.target;
+      this.setState({ [name]: value });
     };
 
-    // When the form is submitted, use the API.getArticlesFromNYT method to retrieve articles from the NYT
     // Then reload articles from the database
     handleFormSubmit = event => {
       event.preventDefault();
-      const self = this;
       // keep a reference of this saved in a variable to use later on
-      API.getArticlesFromNYT({
+      this.props.getArticlesFromNYT({
           topic: this.state.topic,
           startYear: this.state.startYear,
           endYear: this.state.endYear
         })
-        .then(function (response) {
-          // This checks to see if we get a response with data back from the API call
-          if (Object.keys(response).length > 0 && response.constructor === Object) {
-            const articles = response.data.map(article => {
-              return {
-                _id: article._id,
-                byline: article.byline.original,
-                headline: article.headline.main,
-                web_url: article.web_url,
-                date: article.pub_date.split("T")[0],
-                isSaved: false
-              }
-            })
-            self.setState({
-              articles
-            });
-          } else {
-            alert("Sorry, no articles appeared from your search parameters. Please try again.");
-          }
-        })
+        .then(function (response) {})
         .catch(function (error) {
           console.log(error);
         });
     };
+    renderArticles () {
+      // grab articles object which is structured as { key : {article}}, refactored from an array using lodash
+      const {articles} = this.props;
+      const filteredArticles = _.filter(articles, article => !article.isSaved);
+      return (
+        <List title="Results">
+          {_.map(filteredArticles, article => {
+            return (
+              <ListItem key={article._id} headline={article.headline} url={article.web_url} byline={article.byline ? article.byline : ""}>
+                <SaveBtn onClick={() => this.saveArticle(article._id)} />
+              </ListItem>
+            );
+          })}
+        </List>
+      )
+
+  }
 
   render() {
-    const articlesNotSaved = this.state.articles.filter(article => !article.isSaved)
+    const {articles} = this.props;
     return (
       <Container fluid>
         <Row>
@@ -145,19 +106,7 @@ class Articles extends React.Component {
             </List>
           </Col>
           <Col size="md-12 sm-12">
-               {this.state.articles.length ? (
-              <List title="Results">
-                {articlesNotSaved.map(article => {
-                  return (
-                    <ListItem key={article._id} headline={article.headline} url={article.web_url} byline={article.byline ? article.byline : ""}>
-                      <SaveBtn onClick={() => this.saveArticle(article._id)} />
-                    </ListItem>
-                  );
-                })}
-              </List>
-            ) : (
-                <h3>No Results to Display</h3>
-              )}
+              {_.size(articles) > 0 ?  this.renderArticles() : ""}
           </Col>
 
         </Row>
@@ -166,6 +115,9 @@ class Articles extends React.Component {
   }
 }
 
-export default Articles;
+function mapStateToProps({articles}){
+  return {articles};
+}
 
-
+// savedArticles, getArticlesFromNYT are destructured methods, now hooked up to redux and available as props
+export default connect(mapStateToProps, {saveArticle, getArticlesFromNYT})(Articles);

@@ -19,7 +19,7 @@ const articleFunctions = {
   },
   update: function (req, res) {
     db.Article
-      .findOneAndUpdate({ _id: req.params.id }, req.body)
+      .findOneAndUpdate({ _id: req.body._id }, req.body)
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
