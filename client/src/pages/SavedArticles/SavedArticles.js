@@ -13,46 +13,19 @@ class SavedArticles extends React.Component {
   componentDidMount() {
     this.props.getArticles();
   }
-
-  // Loads all articles  and sets them to this.state.savedArticles
-  loadArticles = () => {
-    
-    // API.getArticles()
-    //   .then(res => {
-    // articles = res.data.map(article => {
-    //       return {
-    //         _id: article._id,
-    //         byline: article.byline,
-    //         headline: article.headline,
-    //         web_url : article.web_url,
-    //         // get rid of seconds/milliseconds using the split  method
-    //         date: article.date.split("T")[0],
-    //         isSaved: false
-    // }
-    //     })
-    //     this.setState({savedArticles: articles});
-    //   }
-    //   )
-    //   .catch(err => console.log(err));
-  };
-
-  // Deletes a article from the database with a given id, then reloads articles from the db
-  // deleteArticle = id => {
-  //   API.deleteArticle(id)
-  //     .then(res => this.loadArticles())
-  //     .catch(err => console.log(err));
-  // };
+  // after you delete an article, the redux state changes so we call the componentWillReceiveProps lifecycle change to update the savedArticles component
+  componentWillReceiveProps() {
+    this.props.getArticles();
+  }
 
   renderArticles () {
-      let {savedArticles} = this.props;
-      console.log(savedArticles);
+      const {savedArticles} = this.props;
       return (
         <List title="Saved Articles">
           {_.map(savedArticles, article => {
-            
             return (
-              <ListItem key={article._id} headline={article.headline} url={article.web_url} byline={article.byline ? article.byline : ""}>
-                <DeleteBtn onClick={() => this.deleteArticle(article._id)} />
+              <ListItem key={article._id} headline={article.headline} url={article.web_url} byline={article.byline}>
+                <DeleteBtn onClick={() => this.props.deleteArticle(article._id)} />
               </ListItem>
             );
           })}
@@ -69,7 +42,6 @@ class SavedArticles extends React.Component {
                 this.renderArticles() :  
                 <h3>No Saved Articles Yet</h3>
                }
-              
           </Col>
         </Row>
       </Container>
@@ -78,10 +50,7 @@ class SavedArticles extends React.Component {
 }
 
 function mapStateToProps({savedArticles}){
-  return {
-      // this.props === ownProps
-      savedArticles
-  };
+  return {savedArticles};
 }
 
 // deleteArticle, getArticles are destructured methods, now hooked up to redux and available as props

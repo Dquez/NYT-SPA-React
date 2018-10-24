@@ -15,7 +15,7 @@ export default function (state = {}, action) {
 
 
 function NYTCleanup (dataObj) {
-    if (Object.keys(dataObj).length > 0 && dataObj.constructor === Object) {
+    if (_.size(dataObj) > 0 && dataObj.constructor === Object) {
         const articles = dataObj.data.map(article => {
           return {
             _id: article._id,

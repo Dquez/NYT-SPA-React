@@ -12,7 +12,6 @@ class Articles extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
-        // articles: [],
         topic: "",
         startYear: "2014-06-01",
         endYear: "2018-10-21"
@@ -20,7 +19,7 @@ class Articles extends React.Component {
     }
 
     //Saves an article to the database, then reloads articles from the db
-    saveArticle = (id, callback) => {
+    saveArticle = (id) => {
       const {articles} = this.props;
       // make a clone of the article we're saving
       const article = {...articles[id]};
@@ -52,7 +51,7 @@ class Articles extends React.Component {
     };
     renderArticles () {
       // grab articles object which is structured as { key : {article}}, refactored from an array using lodash
-      let {articles} = this.props;
+      const {articles} = this.props;
       const filteredArticles = _.filter(articles, article => !article.isSaved);
       return (
         <List title="Results">
@@ -107,7 +106,7 @@ class Articles extends React.Component {
             </List>
           </Col>
           <Col size="md-12 sm-12">
-              {Object.keys(articles).length > 0 ?  this.renderArticles() : ""}
+              {_.size(articles) > 0 ?  this.renderArticles() : ""}
           </Col>
 
         </Row>
@@ -117,10 +116,7 @@ class Articles extends React.Component {
 }
 
 function mapStateToProps({articles}){
-  return {
-      // this.props === ownProps
-      articles
-  };
+  return {articles};
 }
 
 // savedArticles, getArticlesFromNYT are destructured methods, now hooked up to redux and available as props
