@@ -19,10 +19,9 @@ There is still room for improvement including adding more pages for different we
 * [express](https://www.npmjs.com/package/express)
 * [mongoose](https://www.npmjs.com/package/mongoose)
 * [nodemon](https://www.npmjs.com/package/nodemon)
+* [redux](https://redux.js.org/)
 * [request](https://www.npmjs.com/package/request)
 * [react-router-dom](https://www.npmjs.com/package/react-router-dom)
-
-Running an npm install should install all of the dependencies you need to get this project started.
 
 ## What I learned
 This app helped me understand the architecture and strategic choices that are required when making a React app. Reusability and compartmentalization are key when it comes to building a robust React app, especially when your app needs to scale.
